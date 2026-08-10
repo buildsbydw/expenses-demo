@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaroWorks – Expense Submission</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 600px;
+      background: #5b2d8e;
+      border-radius: 10px 10px 0 0;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Logo mark: three leaf shapes in teal, green, purple */
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .top-bar-text h1 {
+      color: white;
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .top-bar-text h1 span {
+      color: #00a9c9;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .top-bar-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .accent-bar {
+      width: 100%;
+      max-width: 600px;
+      height: 4px;
+      background: linear-gradient(to right, #00a9c9 33%, #8dc63f 33%, #8dc63f 66%, #5b2d8e 66%);
+    }
+
+    .form-card {
+      width: 100%; max-width: 600px;
+      background: white;
+      border: 1px solid #d8dde5;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      padding: 2rem;
+    }
+
+    .form-section-title {
+      font-size: 13px; font-weight: 600;
+      color: #5b2d8e;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-field { margin-bottom: 1.1rem; }
+
+    .form-field label {
+      display: block; font-size: 13px; font-weight: 500;
+      color: #3a3a5c; margin-bottom: 5px;
+    }
+
+    .form-field label .required { color: #00a9c9; margin-left: 2px; }
+
+    .form-field input,
+    .form-field select {
+      width: 100%; height: 40px; padding: 0 12px;
+      border: 1px solid #c8cfd8; border-radius: 6px;
+      font-size: 14px; font-family: inherit; color: #2c2c4a;
+      background: #f9fafb;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none; appearance: none; -webkit-appearance: none;
+    }
+
+    .form-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235b2d8e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus {
+      border-color: #5b2d8e;
+      box-shadow: 0 0 0 3px rgba(91, 45, 142, 0.1);
+      background: white;
+    }
+
+    .form-field input::placeholder { color: #a0aab4; font-size: 13px; }
+
+    .divider { border: none; border-top: 1px solid #eaecef; margin: 1.5rem 0; }
+
+    .submit-btn {
+      width: 100%; height: 44px;
+      background: #5b2d8e; color: white;
+      border: none; border-radius: 6px;
+      font-size: 15px; font-weight: 600;
+      font-family: inherit; cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .submit-btn:hover { background: #4a2272; }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { background: #c0c8d0; cursor: not-allowed; }
+
+    .form-note { margin-top: 1rem; font-size: 12px; color: #8a95a0; text-align: center; line-height: 1.6; }
+
+    .banner {
+      display: none; padding: 12px 16px; border-radius: 6px;
+      font-size: 13px; font-weight: 500; margin-bottom: 1.25rem;
+    }
+    .banner.success { background: #e8f7fb; color: #007a94; border: 1px solid #00a9c9; }
+    .banner.error { background: #fdf0f8; color: #7a1a6e; border: 1px solid #c060b0; }
+
+    .footer {
+      margin-top: 1.5rem; text-align: center;
+      font-size: 12px; color: #8a95a0;
+    }
+    .footer a { color: #5b2d8e; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer .momentum { color: #a0aab4; font-size: 11px; display: block; margin-top: 4px; }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <!-- Leaf logo mark -->
+    <div class="logo-mark">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Teal leaf (left) -->
+        <path d="M6 30 C6 18 14 8 14 8 C14 8 22 18 22 30 C18 32 10 32 6 30Z" fill="#00a9c9"/>
+        <!-- Green leaf (center) -->
+        <path d="M14 28 C16 17 22 9 22 9 C22 9 28 17 26 28 C22 30 16 30 14 28Z" fill="#8dc63f"/>
+        <!-- Purple leaf (right) -->
+        <path d="M22 26 C22 16 28 8 28 8 C28 8 36 16 34 26 C30 28 24 28 22 26Z" fill="#5b2d8e" opacity="0.9"/>
+      </svg>
+    </div>
+    <div class="top-bar-text">
+      <h1>taro <span>works</span></h1>
+      <p>A Momentum Company</p>
+    </div>
+  </div>
+
+  <div class="accent-bar"></div>
+
+  <div class="form-card">
+    <p class="form-section-title">Expense Details</p>
+
+    <div class="banner success" id="successBanner">Your expense has been submitted successfully.</div>
+    <div class="banner error" id="errorBanner">Something went wrong. Please try again.</div>
+
+    <form id="expenseForm">
+      <input type="hidden" id="financialReportId" name="financialReportId">
+
+      <div class="form-field">
+        <label for="expenseDate">Expense Date <span class="required">*</span></label>
+        <input id="expenseDate" name="expenseDate" type="datetime-local" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="unitCost">Unit Cost <span class="required">*</span></label>
+          <input id="unitCost" name="unitCost" type="number" min="0" step="0.01" placeholder="e.g. 10.00" required>
+        </div>
+        <div class="form-field">
+          <label for="qty">Quantity <span class="required">*</span></label>
+          <input id="qty" name="qty" type="number" min="1" step="1" placeholder="e.g. 10" required>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="currency">Currency <span class="required">*</span></label>
+        <select id="currency" name="currency" required>
+          <option value="">-- Select --</option>
+          <option value="USD" selected>USD - U.S. Dollar</option>
+          <option value="NGN">NGN - Nigerian Naira</option>
+          <option value="GBP">GBP - British Pound</option>
+          <option value="EUR">EUR - Euro</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="type">Type <span class="required">*</span></label>
+        <select id="type" name="type" required>
+          <option value="">-- Select --</option>
+          <option value="Company">Company</option>
+          <option value="Staff">Staff</option>
+        </select>
+      </div>
+
+      <hr class="divider">
+
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Expense</button>
+
+      <p class="form-note">
+        Fields marked <span style="color:#00a9c9;">*</span> are required.
+      </p>
+    </form>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 <a href="https://taroworks.org" target="_blank">TaroWorks</a>. All rights reserved.
+    <span class="momentum">A Momentum Company</span>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const frId = params.get('frId');
+    if (frId) document.getElementById('financialReportId').value = frId;
+
+    const APEX_ENDPOINT = 'https://YOUR_SANDBOX.sandbox.my.salesforce.com/services/apexrest/expense';
+
+    document.getElementById('expenseForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const successBanner = document.getElementById('successBanner');
+      const errorBanner = document.getElementById('errorBanner');
+
+      successBanner.style.display = 'none';
+      errorBanner.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      const payload = {
+        financialReportId: document.getElementById('financialReportId').value,
+        expenseDate: document.getElementById('expenseDate').value,
+        unitCost: parseFloat(document.getElementById('unitCost').value),
+        qty: parseFloat(document.getElementById('qty').value),
+        currency: document.getElementById('currency').value,
+        type: document.getElementById('type').value
+      };
+
+      try {
+        const response = await fetch(APEX_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          successBanner.style.display = 'block';
+          document.getElementById('expenseForm').reset();
+        } else {
+          errorBanner.style.display = 'block';
+        }
+      } catch (err) {
+        errorBanner.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Expense';
+      }
+    });
+  </script>
+
+</body>
+</html>
