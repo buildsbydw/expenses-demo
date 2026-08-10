@@ -251,7 +251,8 @@
     const frId = params.get('frId');
     if (frId) document.getElementById('financialReportId').value = frId;
 
-    const APEX_ENDPOINT = 'https://YOUR_SANDBOX.sandbox.my.salesforce.com/services/apexrest/expense';
+    /*const APEX_ENDPOINT = 'https://YOUR_SANDBOX.sandbox.my.salesforce.com/services/apexrest/expense';*/
+    const APEX_ENDPOINT = 'https://darreltraining--builds.sandbox.my.site.com/taroworkspoc/services/apexrest/expense';
 
     document.getElementById('expenseForm').addEventListener('submit', async function(e) {
       e.preventDefault();
